@@ -1,12 +1,24 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import styles from "./index.module.css";
 import { COLORS, MENU_ITEMS } from "@/constants";
+import { changeBrushSize, changeColor } from "@/slice/toolBoxSlice";
+import cx from "classnames";
+
 const Toolbox = () => {
+  const dispatch = useDispatch();
   const activeMenuItem = useSelector((state) => state.menu.activeMenuItem);
-  const updateBrushSize = (e) => {};
+
+  const updateBrushSize = (e) => {
+    dispatch(changeBrushSize({ item: activeMenuItem, size: e.target.value }));
+  };
+  const updateColor = (color) => {
+    dispatch(changeColor({ item: activeMenuItem, color: color }));
+  };
+
+  const activeColor = useSelector((state)=>state.toolBox[activeMenuItem].color);
+
   return (
     <div className={styles.toolBoxContainer}>
-
       {/* Stroke */}
       {activeMenuItem === MENU_ITEMS.PENCIL && (
         <div className={styles.toolItem}>
@@ -15,8 +27,13 @@ const Toolbox = () => {
             {COLORS.map((color) => (
               <div
                 key={color}
-                className={`${styles.colorBox} w-5 h-5 cursor-pointer rounded-full`}
+                className={cx(
+                  `${styles.colorBox} w-5 h-5 cursor-pointer rounded-full`, { [styles.active]: activeColor === color }
+                )}
                 style={{ backgroundColor: color }}
+                onClick={() => {
+                  updateColor(color);
+                }}
               ></div>
             ))}
           </div>
@@ -38,7 +55,6 @@ const Toolbox = () => {
           />
         </div>
       </div>
-
     </div>
   );
 };
