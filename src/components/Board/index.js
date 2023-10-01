@@ -104,12 +104,15 @@ useEffect(() => {
       drawLine(path.x, path.y);
     };
 
+    
+
     canvas.addEventListener('mousedown', handleMouseDown);
     canvas.addEventListener('mousemove', handleMouseMove);
     canvas.addEventListener('mouseup', handleMouseUp);
 
     socket.on('beginPath', handleBeginPath);
     socket.on('drawLine', handleDrawLine);
+
 
     return () => {
       canvas.removeEventListener("mousedown", handleMouseDown);
@@ -118,10 +121,11 @@ useEffect(() => {
 
       socket.off('beginPath', handleBeginPath);
       socket.off('drawLine', handleDrawLine);
+
     };
   }, []);
 
-  return <canvas ref={canvasRef}></canvas>;
+  return <canvas ref={canvasRef} className={activeMenuItem === MENU_ITEMS.PENCIL ? 'cursor-crosshair':'cursor-grab'}></canvas>;
 };
 
 export default Board;

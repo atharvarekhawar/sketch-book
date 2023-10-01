@@ -4,11 +4,11 @@ import { MENU_ITEMS } from "@/constants";
 const initialState = {
   [MENU_ITEMS.PENCIL]: {
     color: "black",
-    size: 5,
+    size: 6,
   },
   [MENU_ITEMS.ERASER]: {
     color: "white",
-    size: 5,
+    size: 6,
   },
   [MENU_ITEMS.UNDO]: {},
   [MENU_ITEMS.REDO]: {},

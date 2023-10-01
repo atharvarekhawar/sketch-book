@@ -51,9 +51,10 @@ const Toolbox = () => {
           <input
             type="range"
             name="size"
-            min={1}
-            max={10}
-            step={1}
+            min={0}
+            max={50}
+            step={2}
+            value={activeSize}
             onChange={updateBrushSize}
             className="cursor-pointer"
           />
