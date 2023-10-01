@@ -3,19 +3,23 @@ import styles from "./index.module.css";
 import { COLORS, MENU_ITEMS } from "@/constants";
 import { changeBrushSize, changeColor } from "@/slice/toolBoxSlice";
 import cx from "classnames";
+import { socket } from "@/socket";
 
 const Toolbox = () => {
   const dispatch = useDispatch();
   const activeMenuItem = useSelector((state) => state.menu.activeMenuItem);
+  const activeColor = useSelector((state)=>state.toolBox[activeMenuItem].color);
+  const activeSize = useSelector((state)=>state.toolBox[activeMenuItem].size);
 
   const updateBrushSize = (e) => {
     dispatch(changeBrushSize({ item: activeMenuItem, size: e.target.value }));
+    socket.emit("changeConfig",{activeColor,size:e.target.value});
   };
   const updateColor = (color) => {
     dispatch(changeColor({ item: activeMenuItem, color: color }));
+    socket.emit("changeConfig",{color:color,activeSize});
   };
 
-  const activeColor = useSelector((state)=>state.toolBox[activeMenuItem].color);
 
   return (
     <div className={styles.toolBoxContainer}>
